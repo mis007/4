@@ -74,6 +74,7 @@ const MobileRenderer = () => (
     <ResponsiveLayout>
       <Routes>
         {MOBILE_ROUTES.map((route) => {
+          // @ts-ignore
           const RouteAny = Route as any;
           return (
             <RouteAny 
@@ -94,6 +95,7 @@ const AdminRenderer = () => (
     <div style={{ minHeight: '100vh', background: '#f0f2f5' }}>
       <Routes>
         {ADMIN_ROUTES.map((route) => {
+          // @ts-ignore
           const RouteAny = Route as any;
           return (
             <RouteAny 

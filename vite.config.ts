@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 3000,
       proxy: {
-        // 核心：配合后端 API 路径，建立代理通道
         '/api': {
           target: 'http://localhost:3001',
           changeOrigin: true,
@@ -26,10 +25,18 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      // 注入必要的 API Key，防止运行时 undefined
-      'process.env.VITE_API_BASE_URL': JSON.stringify(env.VITE_API_BASE_URL || '/api'),
-      'process.env.MINIMAX_API_KEY': JSON.stringify(env.VITE_MINIMAX_API_KEY || ''),
-      'process.env.MINIMAX_GROUP_ID': JSON.stringify(env.VITE_MINIMAX_GROUP_ID || ''),
+      // Polyfill process.env for browser compatibility
+      'process.env': {
+        VITE_API_BASE_URL: env.VITE_API_BASE_URL || '/api',
+        MINIMAX_API_KEY: env.MINIMAX_API_KEY || env.VITE_MINIMAX_API_KEY || '',
+        MINIMAX_GROUP_ID: env.MINIMAX_GROUP_ID || env.VITE_MINIMAX_GROUP_ID || '',
+        SILICON_FLOW_API_KEY: env.SILICON_FLOW_API_KEY || env.VITE_SILICON_FLOW_API_KEY || '',
+        ZHIPU_API_KEY: env.ZHIPU_API_KEY || env.VITE_ZHIPU_API_KEY || '',
+        ADMIN_API_URL: env.ADMIN_API_URL || 'http://localhost:3001',
+        VITE_ENABLE_BLACKBOARD: env.VITE_ENABLE_BLACKBOARD || 'false',
+        VITE_ENABLE_DEMO_DATA: env.VITE_ENABLE_DEMO_DATA || 'false',
+        VITE_ENABLE_ADVANCED_LOGGING: env.VITE_ENABLE_ADVANCED_LOGGING || 'false'
+      }
     },
     build: {
       outDir: 'dist',
