@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+dist
+build
+
+# Duplicate project folder
+1
+1/
+
+# Documentation files (formatted separately)
+*.md
+docs/
+
+# Generated files
+*.d.ts
+coverage
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Config files that should保持原格式
+.vite
+.eslintrc.cjs
+
+# Public assets
+public
