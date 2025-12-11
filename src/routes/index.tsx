@@ -70,7 +70,7 @@ const RouteObserver: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
 // 移动端渲染器
 const MobileRenderer = () => (
-  <ADMConfigProvider locale={zhCN}>
+  <ADMConfigProvider locale={zhCN as any}>
     <ResponsiveLayout>
       <Routes>
         {MOBILE_ROUTES.map((route) => {
@@ -91,7 +91,7 @@ const MobileRenderer = () => (
 
 // 管理端渲染器
 const AdminRenderer = () => (
-  <ConfigProvider locale={zhCN}>
+  <ConfigProvider locale={zhCN as any}>
     <div style={{ minHeight: '100vh', background: '#f0f2f5' }}>
       <Routes>
         {ADMIN_ROUTES.map((route) => {

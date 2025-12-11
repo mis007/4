@@ -76,11 +76,11 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({
   // 🎯 主题切换
   useEffect(() => {
     const savedTheme = ThemeUtils.getCurrentTheme();
-    setCurrentTheme(savedTheme);
+    setCurrentTheme((savedTheme as 'light' | 'dark') || 'light');
   }, []);
 
   // 🎯 导航菜单配置
-  const menuItems = [
+  const menuItems: any[] = [
     {
       key: 'home',
       icon: <HomeOutlined />,
@@ -195,7 +195,7 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({
       if (item.path === pathname) {
         keys.push(item.key);
       } else if (item.children) {
-        item.children.forEach(child => {
+        item.children.forEach((child: any) => {
           if (child.path === pathname) {
             keys.push(child.key);
           }
@@ -213,12 +213,12 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({
 
     if (pathname !== '/') {
       const menuItem = menuItems.find(item => item.path === pathname);
-      if (menuItem) {
+      if (menuItem && menuItem.path) {
         items.push({ title: menuItem.label, path: menuItem.path });
 
         if (menuItem.children) {
-          const childItem = menuItem.children.find(
-            child => child.path === pathname
+          const childItem = ((menuItem.children as any[]) || []).find(
+            (child: any) => child.path === pathname
           );
           if (childItem) {
             items.push({ title: childItem.label, path: childItem.path });
@@ -287,14 +287,18 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({
         icon={<UserOutlined />}
       />
       <Dropdown
-        menu={{ items: userMenuItems }}
+        menu={{ items: userMenuItems as any }}
         placement="bottomRight"
         trigger={['click']}
-        onClick={handleUserMenuClick}
+        onOpenChange={() => {}}
       >
         <Button
           type="text"
           icon={<UserOutlined />}
+          onClick={(e) => {
+            const key = (e.target as any).getAttribute('data-key');
+            if (key) handleUserMenuClick({ key });
+          }}
           style={{ color: '#ffffff' }}
         >
           游客

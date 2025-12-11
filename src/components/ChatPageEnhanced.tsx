@@ -214,7 +214,7 @@ const ChatPageEnhanced = () => {
 
   // 真实语音输入处理
   const handleVoiceInput = async () => {
-    if (!isRecognitionSupported()) {
+    if (!isRecognitionSupported) {
       Toast.show({
         content: '您的浏览器不支持语音识别功能',
         position: 'top',
@@ -241,7 +241,7 @@ const ChatPageEnhanced = () => {
 
   // 文字转语音播放
   const playTextToSpeech = async (text: string) => {
-    if (!isSynthesisSupported()) {
+    if (!isSynthesisSupported) {
       Toast.show({
         content: '您的浏览器不支持语音合成功能',
         position: 'top',
@@ -252,7 +252,7 @@ const ChatPageEnhanced = () => {
 
     try {
       // 优先使用MiniMax API，失败则降级到浏览器TTS
-      await speakText(text, true);
+      await speakText(text, { useMiniMax: true });
     } catch (error) {
       console.error('语音播放失败:', error);
       Toast.show({
@@ -375,22 +375,22 @@ const ChatPageEnhanced = () => {
               padding: '4px 8px',
               borderRadius: '4px',
               fontSize: '12px',
-              backgroundColor: isRecognitionSupported() ? '#e8f5e9' : '#ffebee',
-              color: isRecognitionSupported() ? '#2e7d32' : '#c62828',
+              backgroundColor: isRecognitionSupported ? '#e8f5e9' : '#ffebee',
+              color: isRecognitionSupported ? '#2e7d32' : '#c62828',
             }}
           >
-            🎤 语音识别: {isRecognitionSupported() ? '支持' : '不支持'}
+            🎤 语音识别: {isRecognitionSupported ? '支持' : '不支持'}
           </div>
           <div
             style={{
               padding: '4px 8px',
               borderRadius: '4px',
               fontSize: '12px',
-              backgroundColor: isSynthesisSupported() ? '#e8f5e9' : '#ffebee',
-              color: isSynthesisSupported() ? '#2e7d32' : '#c62828',
+              backgroundColor: isSynthesisSupported ? '#e8f5e9' : '#ffebee',
+              color: isSynthesisSupported ? '#2e7d32' : '#c62828',
             }}
           >
-            🔊 语音合成: {isSynthesisSupported() ? '支持' : '不支持'}
+            🔊 语音合成: {isSynthesisSupported ? '支持' : '不支持'}
           </div>
           {isRecording && (
             <div
@@ -448,7 +448,7 @@ const ChatPageEnhanced = () => {
               >
                 {msg.text}
                 {/* AI回复添加语音播放按钮 */}
-                {msg.type === 'ai' && isSynthesisSupported() && (
+                {msg.type === 'ai' && isSynthesisSupported && (
                   <button
                     onClick={() => playTextToSpeech(msg.text)}
                     disabled={isSpeaking}
@@ -508,20 +508,20 @@ const ChatPageEnhanced = () => {
               block
               onClick={handleVoiceInput}
               loading={isRecording}
-              disabled={!isRecognitionSupported()}
+              disabled={!isRecognitionSupported}
               style={{
                 backgroundColor: isRecording
                   ? '#9e9e9e'
-                  : isRecognitionSupported()
+                  : isRecognitionSupported
                     ? '#4caf50'
                     : '#ccc',
                 color: 'white',
-                opacity: isRecognitionSupported() ? 1 : 0.6,
+                opacity: isRecognitionSupported ? 1 : 0.6,
               }}
             >
               {isRecording
                 ? '🛑 停止录音'
-                : isRecognitionSupported()
+                : isRecognitionSupported
                   ? '🎤 语音输入'
                   : '🎤 不支持'}
             </Button>
@@ -536,7 +536,7 @@ const ChatPageEnhanced = () => {
           </div>
 
           {/* 功能支持提示 */}
-          {!isRecognitionSupported() && !isSynthesisSupported() && (
+          {!isRecognitionSupported && !isSynthesisSupported && (
             <div
               style={{
                 fontSize: '12px',
