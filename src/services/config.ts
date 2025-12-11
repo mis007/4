@@ -45,52 +45,55 @@ export const AMAP_CONFIG = {
   MCP_URL: 'https://mcp.api-inference.modelscope.net/d19a443b23994d/mcp',
 };
 
+// 修复：使用相对路径 /api，通过 Vite Proxy 转发到 localhost:3001
+const ADMIN_BASE = process.env.VITE_API_BASE_URL || '/api';
+
 // Admin后台API配置
 export const ADMIN_API_CONFIG = {
   // 内容提交API
-  SUBMIT_CONTENT: '/api/admin/content/submit',
+  SUBMIT_CONTENT: `${ADMIN_BASE}/admin/content/submit`,
 
   // 草稿管理API
   DRAFTS: {
-    GET_ALL: '/api/admin/drafts',
-    SAVE: '/api/admin/drafts/save',
-    DELETE: '/api/admin/drafts/delete',
-    PUBLISH: '/api/admin/drafts/publish',
+    GET_ALL: `${ADMIN_BASE}/admin/drafts`,
+    SAVE: `${ADMIN_BASE}/admin/drafts/save`,
+    DELETE: `${ADMIN_BASE}/admin/drafts/delete`,
+    PUBLISH: `${ADMIN_BASE}/admin/drafts/publish`,
   },
 
   // 用户管理API
   USERS: {
-    GET_LIST: '/api/admin/users',
-    UPDATE_STATUS: '/api/admin/users/update',
-    GET_STATS: '/api/admin/users/stats',
+    GET_LIST: `${ADMIN_BASE}/admin/users`,
+    UPDATE_STATUS: `${ADMIN_BASE}/admin/users/update`,
+    GET_STATS: `${ADMIN_BASE}/admin/users/stats`,
   },
 
   // 数据统计API
   ANALYTICS: {
-    GET_DASHBOARD: '/api/admin/analytics/dashboard',
-    GET_CONTENT_STATS: '/api/admin/analytics/content',
-    GET_USER_BEHAVIOR: '/api/admin/analytics/behavior',
+    GET_DASHBOARD: `${ADMIN_BASE}/admin/analytics/dashboard`,
+    GET_CONTENT_STATS: `${ADMIN_BASE}/admin/analytics/content`,
+    GET_USER_BEHAVIOR: `${ADMIN_BASE}/admin/analytics/behavior`,
   },
 
   // 系统配置API
   SYSTEM: {
-    GET_CONFIG: '/api/admin/system/config',
-    UPDATE_CONFIG: '/api/admin/system/update',
-    GET_STATUS: '/api/admin/system/status',
+    GET_CONFIG: `${ADMIN_BASE}/admin/system/config`,
+    UPDATE_CONFIG: `${ADMIN_BASE}/admin/system/update`,
+    GET_STATUS: `${ADMIN_BASE}/admin/system/status`,
   },
 
   // 文件上传API
   UPLOAD: {
-    IMAGE: '/api/admin/upload/image',
-    BATCH: '/api/admin/upload/batch',
+    IMAGE: `${ADMIN_BASE}/admin/upload/image`,
+    BATCH: `${ADMIN_BASE}/admin/upload/batch`,
   },
 
   // 内容审核API
   MODERATION: {
-    GET_PENDING: '/api/admin/moderation/pending',
-    APPROVE: '/api/admin/moderation/approve',
-    REJECT: '/api/admin/moderation/reject',
-    REPORT: '/api/admin/moderation/report',
+    GET_PENDING: `${ADMIN_BASE}/admin/moderation/pending`,
+    APPROVE: `${ADMIN_BASE}/admin/moderation/approve`,
+    REJECT: `${ADMIN_BASE}/admin/moderation/reject`,
+    REPORT: `${ADMIN_BASE}/admin/moderation/report`,
   },
 };
 
@@ -99,8 +102,9 @@ export const API_REQUEST_CONFIG = {
   TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,
-  // 使用相对路径 /api，由 Vite 代理转发到 localhost:3001
-  BASE_URL: process.env.ADMIN_API_URL || '/api',
+  // 修复：这里不需要 BASE_URL 了，因为 endpoint 已经包含了 BASE_URL
+  // 为了兼容 adminApiService 中的用法，我们将其设为空字符串
+  BASE_URL: '', 
 };
 
 // 数据库配置

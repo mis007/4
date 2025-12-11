@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 引入国内稳定 CDN 字体：思源黑体 */
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/font-noto-sans-sc@1.0.0/fonts/NotoSansSC-Regular.woff2') format('woff2');
+}
+
 :root {
   /* Play-Doh Palette */
   --clay-bg: #f0fdf4; /* Light Mint */

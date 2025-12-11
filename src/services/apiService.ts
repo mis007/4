@@ -3,15 +3,20 @@
  * 处理移动端页面与后端API的对接
  */
 
-// API基础配置（使用相对路径，由Vite代理转发到localhost:3001）
-const API_BASE_URL = '/api';
+// API基础配置
+// 修正：使用相对路径，走 Vite 代理；或者读取环境变量
+const API_BASE_URL = process.env.VITE_API_BASE_URL || '/api';
+
+console.log(`[API Service] Base URL initialized: ${API_BASE_URL}`);
 
 // 通用请求函数
 async function request<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<{ success: boolean; data?: T; error?: string; message?: string }> {
-  const url = `${API_BASE_URL}${endpoint}`;
+  // 移除 endpoint 开头的 / 防止双斜杠，因为 API_BASE_URL 可能以 / 结尾
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE_URL}${cleanEndpoint}`;
 
   const config: RequestInit = {
     ...options,
@@ -31,8 +36,13 @@ async function request<T>(
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error(`API请求失败:`, error);
-    throw error;
+    console.error(`API请求失败: ${url}`, error);
+    // 返回统一的错误结构，防止前端崩溃
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : '网络请求失败',
+      message: '网络连接异常，请检查网络或后端服务'
+    };
   }
 }
 

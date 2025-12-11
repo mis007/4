@@ -128,8 +128,8 @@ export const VillageLoginPage: React.FC<VillageLoginPageProps> = () => {
         message.success('登录成功');
         
         // 保存用户信息和token
-        localStorage.setItem('user-token', (response.data as any).token);
-        localStorage.setItem('user-info', JSON.stringify((response.data as any).user));
+        localStorage.setItem('user-token', response.data.token);
+        localStorage.setItem('user-info', JSON.stringify(response.data.user));
         
         // 记住登录状态
         if (values.rememberMe) {

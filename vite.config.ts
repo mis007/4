@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 3000,
       proxy: {
+        // 关键配置：将 /api 开头的请求转发到后端 3001 端口
         '/api': {
           target: 'http://localhost:3001',
           changeOrigin: true,
@@ -27,6 +28,7 @@ export default defineConfig(({ mode }) => {
     define: {
       // Polyfill process.env for browser compatibility
       'process.env': {
+        // 关键修复：确保默认为 '/api'，从而触发 proxy 转发
         VITE_API_BASE_URL: env.VITE_API_BASE_URL || '/api',
         MINIMAX_API_KEY: env.MINIMAX_API_KEY || env.VITE_MINIMAX_API_KEY || '',
         MINIMAX_GROUP_ID: env.MINIMAX_GROUP_ID || env.VITE_MINIMAX_GROUP_ID || '',
