@@ -99,7 +99,8 @@ export const API_REQUEST_CONFIG = {
   TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,
-  BASE_URL: process.env.ADMIN_API_URL || 'http://localhost:3001',
+  // 使用相对路径 /api，由 Vite 代理转发到 localhost:3001
+  BASE_URL: process.env.ADMIN_API_URL || '/api',
 };
 
 // 数据库配置

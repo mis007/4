@@ -3,8 +3,8 @@
  * 处理移动端页面与后端API的对接
  */
 
-// API基础配置
-const API_BASE_URL = 'http://localhost:3001/api';
+// API基础配置（使用相对路径，由Vite代理转发到localhost:3001）
+const API_BASE_URL = '/api';
 
 // 通用请求函数
 async function request<T>(
